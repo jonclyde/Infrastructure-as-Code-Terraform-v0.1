@@ -20,8 +20,8 @@ resource "azurerm_automation_account" "automation" {
 }
 
 resource "azurerm_automation_module" "computermanagementdsc" {
-  count                   = "West Europe"
-  name                    = "ComputerManagementDsc"
+  count                   = 1
+  name                    = "ComputerManagementDsc1"
   resource_group_name     = azurerm_resource_group.automation.name
   automation_account_name = azurerm_automation_account.automation.name
   module_link {
