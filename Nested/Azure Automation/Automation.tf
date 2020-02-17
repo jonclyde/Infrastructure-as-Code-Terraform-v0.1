@@ -18,3 +18,24 @@ resource "azurerm_automation_account" "automation" {
     environment = "development"
   }
 }
+
+resource "azurerm_automation_module" "computermanagementdsc" {
+  count                   = "West Europe"
+  name                    = "ComputerManagementDsc"
+  resource_group_name     = azurerm_resource_group.automation.name
+  automation_account_name = azurerm_automation_account.automation.name
+  module_link {
+    uri = "https://www.powershellgallery.com/api/v2/package/ComputerManagementDsc/8.0.0"
+  }
+}
+
+resource "azurerm_automation_module" "xActiveDirectory" {
+  count                   = "West Europe"
+  name                    = "xActiveDirectory"
+  resource_group_name     = azurerm_resource_group.automation.name
+  automation_account_name = azurerm_automation_account.automation.name
+
+  module_link {
+    uri = "https://devopsgallerystorage.blob.core.windows.net/packages/xactivedirectory.2.19.0.nupkg"
+  }
+}
