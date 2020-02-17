@@ -30,8 +30,8 @@ resource "azurerm_automation_module" "computermanagementdsc" {
 }
 
 resource "azurerm_automation_module" "xActiveDirectory" {
-  count                   = "West Europe"
-  name                    = "xActiveDirectory"
+  count                   = 1
+  name                    = "xActiveDirectory1"
   resource_group_name     = azurerm_resource_group.automation.name
   automation_account_name = azurerm_automation_account.automation.name
 
