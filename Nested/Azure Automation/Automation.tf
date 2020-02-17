@@ -48,9 +48,9 @@ resource "azurerm_automation_dsc_configuration" "test" {
 
 resource "azurerm_automation_dsc_nodeconfiguration" "example" {
   name                    = "test.localhost"
-  resource_group_name     = azurerm_resource_group.example.name
-  automation_account_name = azurerm_automation_account.example.name
-  depends_on              = [azurerm_automation_dsc_configuration.example]
+  resource_group_name     = azurerm_resource_group.automation.name
+  automation_account_name = azurerm_automation_account.automation.name
+  depends_on              = [azurerm_automation_dsc_configuration.test]
 
   content_embedded = <<mofcontent
 instance of MSFT_FileDirectoryConfiguration as $MSFT_FileDirectoryConfiguration1ref
