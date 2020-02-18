@@ -38,42 +38,38 @@ resource "azurerm_automation_module" "xActiveDirectory" {
   }
 }
 
-resource "azurerm_automation_dsc_configuration" "test" {
-  name                    = "test"
+resource "azurerm_automation_dsc_configuration" "ADRole" {
+  name                    = "ADRole"
   resource_group_name     = azurerm_resource_group.automation.name
   automation_account_name = azurerm_automation_account.automation.name
   location                = azurerm_resource_group.automation.location
-  content_embedded        = "configuration test {}"
+  content_embedded        = "Configuration ADRole {}"
 }
 
-resource "azurerm_automation_dsc_nodeconfiguration" "example" {
-  name                    = "test.localhost"
+resource "azurerm_automation_dsc_nodeconfiguration" "ADRole" {
+  name                    = "ADRole.localhost"
   resource_group_name     = azurerm_resource_group.automation.name
   automation_account_name = azurerm_automation_account.automation.name
-  depends_on              = [azurerm_automation_dsc_configuration.test]
+  depends_on              = [azurerm_automation_dsc_configuration.ADRole]
 
   content_embedded = <<mofcontent
-instance of MSFT_FileDirectoryConfiguration as $MSFT_FileDirectoryConfiguration1ref
-{
-  ResourceID = "[File]bla";
-  Ensure = "Present";
-  Contents = "bogus Content";
-  DestinationPath = "c:\\bogus.txt";
-  ModuleName = "PSDesiredStateConfiguration";
-  SourceInfo = "::3::9::file";
-  ModuleVersion = "1.0";
-  ConfigurationName = "bla";
-};
-instance of OMI_ConfigurationDocument
-{
-  Version="2.0.0";
-  MinimumCompatibleVersion = "1.0.0";
-  CompatibleVersionAdditionalProperties= {"Omi_BaseResource:ConfigurationName"};
-  Author="bogusAuthor";
-  GenerationDate="06/15/2018 14:06:24";
-  GenerationHost="bogusComputer";
-  Name="test";
-};
+        WindowsFeature RSATTools 
+        { 
+            Ensure = 'Present'
+            Name = 'RSAT-AD-Tools'
+            IncludeAllSubFeature = $true
+        }
+	WindowsFeature DNSFeature
+        { 
+            Ensure = 'Present'
+            Name = 'DNS'
+            IncludeAllSubFeature = $true
+        }
+	WindowsFeature ADDSFeature
+        { 
+            Ensure = 'Present'
+            Name = 'AD-Domain-Services'
+            IncludeAllSubFeature = $true
+        }
 mofcontent
-
 }
