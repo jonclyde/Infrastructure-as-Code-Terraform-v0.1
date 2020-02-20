@@ -15,6 +15,11 @@ name = "${var.VMSecret.Secretname}"
 vault_uri = "${data.azurerm_key_vault.KeyVault.vault_uri}"
 }
 
+data "azurerm_automation_account" "automationAcc" {
+    name = "${var.dscaa-account-name}"
+    resource_group_name = "${var.dscaa-resource-group-name}"
+}
+
 resource "azurerm_resource_group" "StorageAccountRG" {
   name = "${var.RGNameforStorage}"
   location = "${var.Location}"
@@ -122,4 +127,41 @@ resource "azurerm_virtual_machine" "WindowsMgmtVMS" {
   os_profile_windows_config {
     provision_vm_agent = true
   }
+}
+resource "azurerm_virtual_machine_extension" "dsc_extension" {
+  count                = "${length(var.WindowsMgmtVMS)}"
+  name                 = "Microsoft.Powershell.DSC"
+  location             = "${var.Location}"
+  resource_group_name  = "${azurerm_resource_group.ManagementVMRG.name}"
+  virtual_machine_name = "${element(var.WindowsMgmtVMS, count.index)}"
+  publisher            = "Microsoft.Powershell"
+  type                 = "DSC"
+  type_handler_version = "2.77"
+  auto_upgrade_minor_version = true
+  #depends_on = ["module.azurerm_virtual_machine_winrmenabled"]
+  settings = <<SETTINGS_JSON
+        {
+            "configurationArguments": {
+                "RegistrationUrl" : "${data.azurerm_automation_account.automationAcc.dsc_server_endpoint}",
+                "NodeConfigurationName" : "RSATFeature.localhost",
+                "ConfigurationMode": "${local.dsc_mode}",
+                "RefreshFrequencyMins": 30,
+                "ConfigurationModeFrequencyMins": 15,
+                "RebootNodeIfNeeded": false,
+                "ActionAfterReboot": "continueConfiguration",
+                "AllowModuleOverwrite": true
+ 
+            }
+        }
+  SETTINGS_JSON
+  protected_settings = <<PROTECTED_SETTINGS_JSON
+    {
+        "configurationArguments": {
+                "RegistrationKey": {
+                    "userName": "NOT_USED",
+                    "Password": "${data.azurerm_automation_account.automationAcc.dsc_primary_access_key}"
+                }
+        }
+    }
+  PROTECTED_SETTINGS_JSON
 }

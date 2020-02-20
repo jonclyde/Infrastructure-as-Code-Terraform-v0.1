@@ -44,3 +44,25 @@ variable "WindowsMgmtVMS" {
 variable "ManagementVirtualMachineSizes" {
   default = ["Standard_B2S"]
 }
+
+locals {
+  dsc_mode             = "ApplyAndAutoCorrect"
+}
+ 
+variable "dscaa-resource-group-name" {
+  default = "tf-rg-core-aut"
+  description = "Azure Automation azurerm_resource_group name"
+}
+variable "dscaa-account-name" {
+  default = "tf-aa-core-aut"
+  description = "Azure Automation azurerm_automation_account name"
+}
+variable "dscaa-server-endpoint" {
+  default = ""
+  description = "Azure Automation azurerm_automation_account endpoint URL"
+}
+variable "dscaa-access-key" {
+  default = ""
+ description = "Azure Automation azurerm_automation_account access key"
+}
+ 

@@ -38,38 +38,19 @@ resource "azurerm_automation_module" "xActiveDirectory" {
   }
 }
 
-resource "azurerm_automation_dsc_configuration" "ADRole" {
-  name                    = "ADRole"
+resource "azurerm_automation_dsc_configuration" "RSATFeature" {
+  name                    = "RSATFeature"
   resource_group_name     = azurerm_resource_group.automation.name
   automation_account_name = azurerm_automation_account.automation.name
   location                = azurerm_resource_group.automation.location
-  content_embedded        = "Configuration ADRole {}"
+  content_embedded        = "${file("${path.cwd}/../../Configuration Management/PowerShell DSC/RSATFeature.ps1")}"
 }
 
-resource "azurerm_automation_dsc_nodeconfiguration" "ADRole" {
-  name                    = "ADRole.localhost"
+resource "azurerm_automation_dsc_nodeconfiguration" "RSATFeature" {
+  name                    = "RSATFeature.localhost"
   resource_group_name     = azurerm_resource_group.automation.name
   automation_account_name = azurerm_automation_account.automation.name
-  depends_on              = [azurerm_automation_dsc_configuration.ADRole]
+  depends_on              = [azurerm_automation_dsc_configuration.RSATFeature]
 
-  content_embedded = <<mofcontent
-        WindowsFeature RSATTools 
-        { 
-            Ensure = 'Present'
-            Name = 'RSAT-AD-Tools'
-            IncludeAllSubFeature = $true
-        }
-	WindowsFeature DNSFeature
-        { 
-            Ensure = 'Present'
-            Name = 'DNS'
-            IncludeAllSubFeature = $true
-        }
-	WindowsFeature ADDSFeature
-        { 
-            Ensure = 'Present'
-            Name = 'AD-Domain-Services'
-            IncludeAllSubFeature = $true
-        }
-mofcontent
+  content_embedded = ""
 }
