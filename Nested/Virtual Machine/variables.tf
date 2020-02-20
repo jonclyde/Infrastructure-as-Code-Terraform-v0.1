@@ -7,6 +7,11 @@ variable "BootDiagStorageAccount" {
 variable "RGNameforStorage" {
   default = "tf-rg-core-stac"
 }
+
+variable "KeyVaultName" {
+  
+}
+
 variable "VMSecret" {
   type = "map"
   default = {
