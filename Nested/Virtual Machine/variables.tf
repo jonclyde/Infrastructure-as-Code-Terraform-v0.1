@@ -9,7 +9,7 @@ variable "RGNameforStorage" {
 }
 
 variable "KeyVaultName" {
-  
+  default = ""
 }
 
 variable "VMSecret" {
