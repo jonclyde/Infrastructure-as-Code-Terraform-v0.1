@@ -7,17 +7,11 @@ variable "BootDiagStorageAccount" {
 variable "RGNameforStorage" {
   default = "tf-rg-core-stac"
 }
-
-variable "KeyVaultName" {
-  default = "tf-kv-core-key"
-}
-
 variable "VMSecret" {
   type = "map"
   default = {
     Username = "CD-Admin"
     Secretname = "DefaultPw"
-    vault_uri   = "https://tr-eus-keyvault.vault.azure.net/"
   }
 }
 variable "ExistingServersVNet" {
