@@ -14,12 +14,12 @@ data "azurerm_key_vault_secret" "DefaultPw" {
 name = "${var.VMSecret.Secretname}"
 vault_uri = "${data.azurerm_key_vault.KeyVault.vault_uri}"
 }
-
+/*
 data "azurerm_automation_account" "automationAcc" {
     name = "${var.dscaa-account-name}"
     resource_group_name = "${var.dscaa-resource-group-name}"
 }
-
+*/
 resource "azurerm_resource_group" "StorageAccountRG" {
   name = "${var.RGNameforStorage}"
   location = "${var.Location}"
