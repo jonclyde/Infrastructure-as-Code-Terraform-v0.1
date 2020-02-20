@@ -128,6 +128,7 @@ resource "azurerm_virtual_machine" "WindowsMgmtVMS" {
     provision_vm_agent = true
   }
 }
+/*
 resource "azurerm_virtual_machine_extension" "dsc_extension" {
   count                = "${length(var.WindowsMgmtVMS)}"
   name                 = "Microsoft.Powershell.DSC"
@@ -164,4 +165,4 @@ resource "azurerm_virtual_machine_extension" "dsc_extension" {
         }
     }
   PROTECTED_SETTINGS_JSON
-}
+}*/
