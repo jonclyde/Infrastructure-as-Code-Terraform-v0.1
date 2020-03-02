@@ -6,6 +6,14 @@ variable "loc" {
     default = "West Europe"
 }
 
+variable "RGNameforAutomation" {
+  default = ""
+}
+
+variable "NameforAutomation" {
+  default = ""
+}
+
 variable "DSCConfigurations" {
   default = ["RSATFeature","ADRole","WebServerRole"]
 }
