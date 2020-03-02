@@ -49,7 +49,7 @@ resource "azurerm_automation_dsc_configuration" "DSCConfigurations" {
   content_embedded = "${file("${path.cwd}/../../Configuration Management/PowerShell DSC/${element(var.DSCConfigurations, count.index)}.ps1")}"
 }
 
-
+/*
 resource "null_resource" "compile_dsc_config_test1" {
   depends_on              = azurerm_automation_dsc_configuration.DSCConfigurations
   provisioner "local-exec" {
@@ -59,7 +59,7 @@ resource "null_resource" "compile_dsc_config_test1" {
   }
 
 }
-
+*/
 resource "null_resource" "compile_dsc_config_test2" {
   provisioner "local-exec" {
     command = "powershell.exe -command 'dir'"
