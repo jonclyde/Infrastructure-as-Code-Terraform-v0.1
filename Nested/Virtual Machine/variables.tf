@@ -9,7 +9,7 @@ variable "RGNameforStorage" {
 }
 
 variable "KeyVaultName" {
-  default = "tf-kv-core-key"
+  default = ""
 }
 
 variable "VMSecret" {
@@ -17,7 +17,6 @@ variable "VMSecret" {
   default = {
     Username = "CD-Admin"
     Secretname = "DefaultPw"
-    vault_uri   = "https://tr-eus-keyvault.vault.azure.net/"
   }
 }
 variable "ExistingServersVNet" {

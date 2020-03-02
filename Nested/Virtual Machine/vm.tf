@@ -14,12 +14,12 @@ data "azurerm_key_vault_secret" "DefaultPw" {
 name = "${var.VMSecret.Secretname}"
 vault_uri = "${data.azurerm_key_vault.KeyVault.vault_uri}"
 }
-
+/*
 data "azurerm_automation_account" "automationAcc" {
     name = "${var.dscaa-account-name}"
     resource_group_name = "${var.dscaa-resource-group-name}"
 }
-
+*/
 resource "azurerm_resource_group" "StorageAccountRG" {
   name = "${var.RGNameforStorage}"
   location = "${var.Location}"
@@ -128,7 +128,7 @@ resource "azurerm_virtual_machine" "WindowsMgmtVMS" {
     provision_vm_agent = true
   }
 }
-
+/*
 resource "azurerm_virtual_machine_extension" "dsc_extension" {
   count                = "${length(var.WindowsMgmtVMS)}"
   name                 = "Microsoft.Powershell.DSC"
@@ -164,5 +164,4 @@ resource "azurerm_virtual_machine_extension" "dsc_extension" {
         }
     }
   PROTECTED_SETTINGS_JSON
-  
-}
+}*/
