@@ -6,6 +6,10 @@ variable "loc" {
     default = "West Europe"
 }
 
+variable "DSCConfigurations" {
+  default = ["RSATFeature","ADRole","WebServerRole"]
+}
+
 variable "tags" {
     type = "map"
     default = {
