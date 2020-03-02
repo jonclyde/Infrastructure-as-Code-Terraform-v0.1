@@ -52,7 +52,6 @@ resource "azurerm_automation_dsc_configuration" "DSCConfigurations" {
 
 resource "null_resource" "compile_dsc_config_test1" {
   depends_on              = azurerm_automation_dsc_configuration.DSCConfigurations
-  count                   = length(var.location)
   provisioner "local-exec" {
     command = "Install-Module Az ; Get-AzAutomationdscconfiguration -ResourceGroupName ${azurerm_resource_group.automation.name} -AutomationAccountName ${azurerm_automation_account.automation.name} | Start-AzAutomationDscCompilationJob"
     interpreter = ["PowerShell", "-Command"]
@@ -62,8 +61,6 @@ resource "null_resource" "compile_dsc_config_test1" {
 }
 
 resource "null_resource" "compile_dsc_config_test2" {
-  depends_on              = azurerm_automation_dsc_configuration.DSCConfigurations
-  count                   = length(var.location)
   provisioner "local-exec" {
     command = "powershell.exe -command 'dir'"
 
