@@ -2,8 +2,16 @@ variable "rg" {
     default = "terraform-lab2"
 }
 
-variable "loc" {
-    default = "West Europe"
+variable "Location" {
+    default = ""
+}
+
+variable "NameforAutomationAcc" {
+  default = ""
+}
+
+variable "RGNameforAutomationAcc" {
+  default = ""
 }
 
 variable "tags" {

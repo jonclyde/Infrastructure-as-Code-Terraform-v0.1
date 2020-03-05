@@ -9,8 +9,8 @@ resource "azurerm_resource_group" "lab2" {
 }
 
 resource "random_string" "rnd" {
-  length                   = 8
-  lower                    = true
+  length                   = 4
+  lower                    = false
   number                   = true
   upper                    = false
   special                  = false

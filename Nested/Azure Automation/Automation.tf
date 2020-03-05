@@ -3,8 +3,8 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "automation" {
-  name     = "tf-rg-core-aut"
-  location = "West Europe"
+  name     = "${var.NameforAutomationAcc}"
+  location = "${var.Location}"
 }
 
 resource "azurerm_automation_account" "automation" {
@@ -46,6 +46,23 @@ resource "azurerm_automation_dsc_configuration" "RSATFeature" {
   content_embedded        = "${file("${path.cwd}/../../Configuration Management/PowerShell DSC/RSATFeature.ps1")}"
 }
 
+resource "azurerm_automation_dsc_configuration" "ADRole" {
+  name                    = "ADRole"
+  resource_group_name     = azurerm_resource_group.automation.name
+  automation_account_name = azurerm_automation_account.automation.name
+  location                = azurerm_resource_group.automation.location
+  content_embedded        = "${file("${path.cwd}/../../Configuration Management/PowerShell DSC/ADRole.ps1")}"
+}
+
+resource "azurerm_automation_dsc_configuration" "WebServerRole" {
+  name                    = "WebServerRole"
+  resource_group_name     = azurerm_resource_group.automation.name
+  automation_account_name = azurerm_automation_account.automation.name
+  location                = azurerm_resource_group.automation.location
+  content_embedded        = "${file("${path.cwd}/../../Configuration Management/PowerShell DSC/WebServerRole.ps1")}"
+}
+
+/*
 resource "azurerm_automation_dsc_nodeconfiguration" "RSATFeature" {
   name                    = "RSATFeature.localhost"
   resource_group_name     = azurerm_resource_group.automation.name
@@ -54,3 +71,4 @@ resource "azurerm_automation_dsc_nodeconfiguration" "RSATFeature" {
 
   content_embedded = ""
 }
+*/
