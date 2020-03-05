@@ -139,11 +139,10 @@ resource "azurerm_virtual_machine_extension" "dsc_extension" {
   type                 = "DSC"
   type_handler_version = "2.77"
   auto_upgrade_minor_version = true
-  #depends_on = ["module.azurerm_virtual_machine_winrmenabled"]
   settings = <<SETTINGS_JSON
         {
             "configurationArguments": {
-                "RegistrationUrl" : "${data.azurerm_automation_account.automationAcc.dsc_server_endpoint}",
+                "RegistrationUrl" : "${data.azurerm_automation_account.automationAcc.endpoint}",
                 "NodeConfigurationName" : "RSATFeature.localhost",
                 "ConfigurationMode": "${local.dsc_mode}",
                 "RefreshFrequencyMins": 30,
@@ -160,7 +159,7 @@ resource "azurerm_virtual_machine_extension" "dsc_extension" {
         "configurationArguments": {
                 "RegistrationKey": {
                     "userName": "NOT_USED",
-                    "Password": "${data.azurerm_automation_account.automationAcc.dsc_primary_access_key}"
+                    "Password": "${data.azurerm_automation_account.automationAcc.primary_key}"
                 }
         }
     }
